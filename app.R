@@ -63,6 +63,7 @@ server <- function(input, output, session) {
     
     # Limit rows based on slider
     n <- min(input$n_points, nrow(data))
+    cli::cli_alert_info("Data changed to display {n} data point{?s} from {input$dataset}.")
     data[1:n, ]
   })
   
