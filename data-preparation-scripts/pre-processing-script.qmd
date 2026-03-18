@@ -1,0 +1,40 @@
+---
+title: Data processing script
+author: Keith Newman
+---
+
+This processing script was executed at `r Sys.time()`.
+
+Import data from a CSV
+
+```{r}
+imported_data <- read.csv("iris.csv")
+```
+
+Perform tests on the data
+
+```{r}
+library(cli)
+if (nrow(imported_data) > 0L) {
+    cli_alert_success("Imported {nrow(imported_data)} row{?s} of data.")
+} else {
+    cli_alert_danger("Failed to import data!")
+}
+```
+
+Modify data as needed:
+
+```{r}
+library(dplyr)
+imported_data <- slice_sample(imported_data, prop = 1)
+```
+
+If data was imported, store as a pin
+
+```{r}
+library(pins)
+board <- board_connect()
+pin_write(board, imported_data, name = "modified_iris")
+```
+
+Script complete
